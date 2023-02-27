@@ -1,0 +1,22 @@
+.wrap {
+  background-color: pink;
+  margin: 5%;
+  text-align: center;
+}
+.currency-box {
+  margin: 5%;
+  background-color: yellowgreen;
+}
+
+.currency-box input {
+  width: 100%;
+  max-width: 100px;
+  height: 30px;
+  border: 1px solid greenyellow;
+}
+
+.currency-box select {
+  width: 100%;
+  max-width: 100px;
+  height: 30px;
+}
