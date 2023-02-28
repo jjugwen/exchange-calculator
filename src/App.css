@@ -1,11 +1,19 @@
 .wrap {
-  background-color: pink;
-  margin: 5%;
-  text-align: center;
+  background-color: greenyellow;
+  height: 200px;
+  margin: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .currency-box {
-  margin: 5%;
-  background-color: yellowgreen;
+  margin: auto;
+  /* background-color: yellowgreen; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .currency-box input {
@@ -19,4 +27,13 @@
   width: 100%;
   max-width: 100px;
   height: 30px;
+  border: 0;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  max-width: 400px;
 }
