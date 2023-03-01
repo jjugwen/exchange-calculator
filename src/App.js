@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import CurrencyBox from "./components/CurrencyBox";
+import instance from "./API/instance";
 
 function App() {
   const [date, setDate] = useState("");
@@ -47,59 +48,53 @@ function App() {
     }
   };
 
-  const listAPI = () => {
-    const currency = "USD";
-    const requestURL = `https://api.exchangerate.host/latest?base=${currency}`;
-    const request = new XMLHttpRequest();
-    request.open("GET", requestURL);
-    request.responseType = "json";
-    request.send();
-
-    request.onload = function () {
-      const response = request.response;
-      setDate(response.date);
-      const currencyList = Object.keys(response.rates);
-      setList(currencyList);
-    };
+  const listDB = async (date, currencylist) => {
+    try {
+      const response = await instance.get(`/currencylist`, {
+        date,
+        currencylist,
+      });
+      // console.log(response.data)
+      setList(response.data.currencyList);
+      setDate(response.data.date)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const nationAPI = () => {
-    const requestURL = "https://api.exchangerate.host/symbols";
-    const request = new XMLHttpRequest();
-    request.open("GET", requestURL);
-    request.responseType = "json";
-    request.send();
-
-    request.onload = function () {
-      const response = request.response;
-      // console.log(response.symbols)
-      const data = Object.values(response.symbols);
-      // const currencyCode = Object.values(response.symbols).map(k=> k.code);
-      for (let value of data) {
+  const nationDB = async (nationlist) => {
+    try {
+      const response = await instance.get(`/nationlist`, nationlist);
+      // console.log(response.data);
+      for (let value of response.data) {
         if (value.code === currency1) {
           setNation1(value.description);
         } else if (value.code === currency2) {
           setNation2(value.description);
         }
       }
-      // const nation = Object.values(response.symbols).map(k=> k.description);
-      // console.log(currencyCode, nation);
-      // setList(currencyCode)
-    };
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const API = () => {
-    const requestURL = `https://api.exchangerate.host/convert?from=${currency1}&to=${currency2}&amount=${money}`;
-    const request = new XMLHttpRequest();
-    request.open("GET", requestURL);
-    request.responseType = "json";
-    request.send();
-
-    request.onload = function () {
-      const response = request.response;
-      const exchangeRate = response.info.rate;
-      setRate(exchangeRate);
-    };
+  const rateDB = async (rate) => {
+    try {
+      const response = await instance.post(
+        `/api/${currency1}/${currency2}`,
+        rate,
+        {
+          headers: {
+            "Content-Type": "*",
+            withCredentials: true,
+          },
+        }
+      );
+      // console.log(response.data);
+      setRate(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const opt = list.map((v) => (
@@ -116,9 +111,9 @@ function App() {
   };
 
   useEffect(() => {
-    API();
-    listAPI();
-    nationAPI();
+    listDB();
+    nationDB();
+    rateDB();
   }, [money, currency1, currency2]);
 
   return (
