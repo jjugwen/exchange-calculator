@@ -1,10 +1,13 @@
 .wrap {
   background-color: greenyellow;
-  height: 200px;
-  margin: 10%;
+  border: 1px solid greenyellow;
+  margin: 10% 10% 0 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+  padding: 2%;
+  box-shadow: 13px 13px 15px rgb(160, 179, 135);
 }
 .currency-box {
   margin: auto;
@@ -18,16 +21,18 @@
 
 .currency-box input {
   width: 100%;
-  max-width: 100px;
+  max-width: 130px;
   height: 30px;
+  padding-left: 3%;
   border: 1px solid greenyellow;
 }
 
 .currency-box select {
   width: 100%;
-  max-width: 100px;
-  height: 30px;
-  border: 0;
+  max-width: 130px;
+  height: 34px;
+  padding-left: 1%;
+  border: 1px solid greenyellow;
 }
 
 .input-row {
@@ -35,5 +40,14 @@
   align-items: center;
   gap: 5px;
   width: 100%;
-  max-width: 400px;
+  max-width: 340px;
+}
+
+.ref {
+  margin-right: 10%;
+  overflow: hidden;
+  text-align: right;
+  font-size: smaller;
+  color: gray;
+  opacity: 60%;
 }
