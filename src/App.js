@@ -4,15 +4,18 @@ import CurrencyBox from "./components/CurrencyBox";
 import instance from "./API/instance";
 
 function App() {
-  const [date, setDate] = useState("");
+  const [data, setData] = useState([]);
   const [list, setList] = useState([]);
+  const [date, setDate] = useState("");
   const [rate, setRate] = useState();
   const [money, setMoney] = useState(1);
   const [inputMoney, setInputMoney] = useState(true);
-  const [currency1, setCurrency1] = useState("USD"); //from
-  const [currency2, setCurrency2] = useState("KRW"); //to
-  const [nation1, setNation1] = useState("United States Dollar");
-  const [nation2, setNation2] = useState("South Korean Won");
+  const [currencyCodeFrom, setCurrencyCodeFrom] = useState("USD"); //from
+  const [currencyCodeTo, setCurrencyCodeTo] = useState("KRW"); //to
+  const [nationFrom, setNationFrom] = useState("미국"); //from
+  const [nationTo, setNationTo] = useState("대한민국"); //to
+  const [currencyNameFrom, setCurrencyNameFrom] = useState("달러");
+  const [currencyNameTo, setCurrencyNameTo] = useState("원");
 
   let amount1, amount2;
   if (inputMoney) {
@@ -48,41 +51,14 @@ function App() {
     }
   };
 
-  const listDB = async (date, currencylist) => {
-    try {
-      const response = await instance.get(`/currencylist`, {
-        date,
-        currencylist,
-      });
-      // console.log(response.data)
-      setList(response.data.currencyList);
-      setDate(response.data.date)
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const nationDB = async (nationlist) => {
-    try {
-      const response = await instance.get(`/nationlist`, nationlist);
-      // console.log(response.data);
-      for (let value of response.data) {
-        if (value.code === currency1) {
-          setNation1(value.description);
-        } else if (value.code === currency2) {
-          setNation2(value.description);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const rateDB = async (rate) => {
+  const rateDB = async (rate, date) => {
     try {
       const response = await instance.post(
-        `/api/${currency1}/${currency2}`,
-        rate,
+        `/api/${currencyCodeFrom}/${currencyCodeTo}`,
+        {
+          rate,
+          date
+        },
         {
           headers: {
             "Content-Type": "*",
@@ -91,7 +67,22 @@ function App() {
         }
       );
       // console.log(response.data);
-      setRate(response.data);
+      setRate(response.data.exchangeRate);
+      setDate(response.data.date);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const currencynNationDB = async (data) => {
+    try {
+      const response = await instance.get(`/currencynationlist`, data);
+      // console.log(response.data);
+      const listData = Object.values(response.data);
+      setData(listData);
+      const nations = listData.map((v) => v.nation).sort();
+      // console.log(nations);
+      setList(nations);
     } catch (error) {
       console.log(error);
     }
@@ -104,17 +95,30 @@ function App() {
   ));
 
   const handleSelected1 = (e) => {
-    setCurrency1(e.target.value);
+    // console.log(e.target.value); //nation
+    setNationFrom(e.target.value);
+    for (let value of data) {
+      if (value.nation === e.target.value) {
+        setCurrencyCodeFrom(value.currencyCode);
+        setCurrencyNameFrom(value.currencyName);
+      }
+    }
   };
+
   const handleSelected2 = (e) => {
-    setCurrency2(e.target.value);
+    setNationTo(e.target.value);
+    for (let value of data) {
+      if (value.nation === e.target.value) {
+        setCurrencyCodeTo(value.currencyCode);
+        setCurrencyNameTo(value.currencyName);
+      }
+    }
   };
 
   useEffect(() => {
-    listDB();
-    nationDB();
+    currencynNationDB();
     rateDB();
-  }, [money, currency1, currency2]);
+  }, [money, nationFrom, nationTo]);
 
   return (
     <div className="wrap">
@@ -126,20 +130,20 @@ function App() {
         <CurrencyBox
           name="input1"
           opt={opt}
-          selectedCurrency={currency1}
+          selectedNation={nationFrom}
           handleSelected={handleSelected1}
           money={amount1}
           onChange={onChange1}
-          nation={nation1}
+          currencyName={currencyNameFrom}
         />
         <CurrencyBox
           name="input2"
           opt={opt}
-          selectedCurrency={currency2}
+          selectedNation={nationTo}
           handleSelected={handleSelected2}
           money={amount2}
           onChange={onChange2}
-          nation={nation2}
+          currencyName={currencyNameTo}
         />
       </div>
     </div>

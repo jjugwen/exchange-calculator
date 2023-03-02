@@ -1,7 +1,7 @@
 import React from "react";
 
 function CurrencyBox(props) {
-  const { opt, selectedCurrency, handleSelected, money, onChange, nation } = props;
+  const { opt, selectedNation, handleSelected, money, onChange, currencyName } = props;
   // const amount = money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   let amount
   amount = money.toLocaleString('ko-KR', {maximumFractionDigits: 2})
@@ -9,10 +9,10 @@ function CurrencyBox(props) {
   return (
     <div className="input-row">
       <input type="text" min={0} onChange={onChange} value={amount} />
-      <select value={selectedCurrency} onChange={handleSelected}>
+      <select value={selectedNation} onChange={handleSelected}>
         {opt}
       </select>
-      <span>{nation}</span>
+      <span>{currencyName}</span>
     </div>
   );
 }
