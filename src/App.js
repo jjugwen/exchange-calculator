@@ -121,6 +121,7 @@ function App() {
   }, [money, nationFrom, nationTo]);
 
   return (
+    <>
     <div className="wrap">
       <header>
         <h1>환전 계산기</h1>
@@ -146,7 +147,9 @@ function App() {
           currencyName={currencyNameTo}
         />
       </div>
-    </div>
+      </div>
+      <p className="ref">환율 기준 참고 API: <a href="https://exchangerate.host/#/#docs"  style={{color: "gray"}} target="_blank" rel="noreferrer">https://exchangerate.host/#/#docs</a></p>
+    </>
   );
 }
 
