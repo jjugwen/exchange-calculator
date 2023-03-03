@@ -12,10 +12,8 @@ function App() {
   const [inputMoney, setInputMoney] = useState(true);
   const [currencyCodeFrom, setCurrencyCodeFrom] = useState("USD"); //from
   const [currencyCodeTo, setCurrencyCodeTo] = useState("KRW"); //to
-  const [nationFrom, setNationFrom] = useState("미국"); //from
-  const [nationTo, setNationTo] = useState("대한민국"); //to
-  const [currencyNameFrom, setCurrencyNameFrom] = useState("달러");
-  const [currencyNameTo, setCurrencyNameTo] = useState("원");
+  const [nationFrom, setNationFrom] = useState("미국 달러"); //from
+  const [nationTo, setNationTo] = useState("대한민국 원"); //to
 
   let amount1, amount2;
   if (inputMoney) {
@@ -80,7 +78,9 @@ function App() {
       // console.log(response.data);
       const listData = Object.values(response.data);
       setData(listData);
-      const nations = listData.map((v) => v.nation).sort();
+      // console.log(listData.map(v=> `${v.nation} ${v.currencyName}`))
+      const nations = listData.map(v=> `${v.nation} ${v.currencyName}`).sort();
+      // console.log(`${nations} ${currencyName}`);
       // console.log(nations);
       setList(nations);
     } catch (error) {
@@ -95,12 +95,11 @@ function App() {
   ));
 
   const handleSelected1 = (e) => {
-    // console.log(e.target.value); //nation
     setNationFrom(e.target.value);
     for (let value of data) {
-      if (value.nation === e.target.value) {
+      const country = e.target.value.split(" ")[0];
+      if (value.nation === country) {
         setCurrencyCodeFrom(value.currencyCode);
-        setCurrencyNameFrom(value.currencyName);
       }
     }
   };
@@ -108,9 +107,9 @@ function App() {
   const handleSelected2 = (e) => {
     setNationTo(e.target.value);
     for (let value of data) {
-      if (value.nation === e.target.value) {
+      const country = e.target.value.split(" ")[0];
+      if (value.nation === country) {
         setCurrencyCodeTo(value.currencyCode);
-        setCurrencyNameTo(value.currencyName);
       }
     }
   };
@@ -135,7 +134,6 @@ function App() {
           handleSelected={handleSelected1}
           money={amount1}
           onChange={onChange1}
-          currencyName={currencyNameFrom}
         />
         <CurrencyBox
           name="input2"
@@ -144,7 +142,6 @@ function App() {
           handleSelected={handleSelected2}
           money={amount2}
           onChange={onChange2}
-          currencyName={currencyNameTo}
         />
       </div>
       </div>

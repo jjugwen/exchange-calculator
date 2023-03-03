@@ -1,6 +1,6 @@
 .wrap {
-  background-color: greenyellow;
-  border: 1px solid greenyellow;
+  /* background-color: greenyellow; */
+  /* border: 1px solid greenyellow; */
   margin: 10% 10% 0 10%;
   display: flex;
   flex-direction: column;
@@ -20,29 +20,56 @@
 }
 
 .currency-box input {
-  width: 100%;
-  max-width: 130px;
-  height: 30px;
-  padding-left: 3%;
-  border: 1px solid greenyellow;
+  position: block;
+  width: 223px;
+  /* max-width: 200px; */
+  height: 40px;
+  padding: 1px 6px 1px 12px;
+  font-size: 16px;
+  text-decoration: none solid rgt(77, 81, 86);
+  text-align: left;
+  border: 1px solid grey;
+  border-radius: 10px;
+  /* border: 0; */
+  background: transparent;
+  /* background-color: aqua; */
+  /* border-radius: 5%; */
+  overflow: hidden;
+  cursor: text;
+  line-height: 40px;
 }
 
 .currency-box select {
-  width: 100%;
-  max-width: 130px;
-  height: 34px;
-  padding-left: 1%;
-  border: 1px solid greenyellow;
+  font-size: 15px;
+  line-height: 40px;
+  word-spacing: 0px;
+  height: 40px;
+  width: 130px;
+  /* border: 1px solid greenyellow; */
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border: 0;
+  border-left: 0.5px solid rgb(235, 235, 235);
+  position: absolute;
+  left: 110px;
+  display: block;
+  z-index: 1;
+  cursor: default;
+  outline: 0;
 }
 
-.input-row {
+.currency-box select:focus {
+  background-color: rgb(235, 235, 235);
+}
+
+.input-box {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 5px;
+  margin: 1%;
   width: 100%;
-  max-width: 340px;
+  max-width: 243px;
 }
-
 .ref {
   margin-right: 10%;
   overflow: hidden;
