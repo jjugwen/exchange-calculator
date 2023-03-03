@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import instance from "./API/instance";
 import "./App.css";
 import CurrencyBox from "./components/CurrencyBox";
-import instance from "./API/instance";
 
 function App() {
   const [data, setData] = useState([]);
@@ -55,7 +55,7 @@ function App() {
         `/api/${currencyCodeFrom}/${currencyCodeTo}`,
         {
           rate,
-          date
+          date,
         },
         {
           headers: {
@@ -78,10 +78,9 @@ function App() {
       // console.log(response.data);
       const listData = Object.values(response.data);
       setData(listData);
-      // console.log(listData.map(v=> `${v.nation} ${v.currencyName}`))
-      const nations = listData.map(v=> `${v.nation} ${v.currencyName}`).sort();
-      // console.log(`${nations} ${currencyName}`);
-      // console.log(nations);
+      const nations = listData
+        .map((v) => `${v.nation} ${v.currencyName}`)
+        .sort();
       setList(nations);
     } catch (error) {
       console.log(error);
@@ -121,31 +120,41 @@ function App() {
 
   return (
     <>
-    <div className="wrap">
-      <header>
-        <h1>환전 계산기</h1>
-        <p>{date}</p>
-      </header>
-      <div className="currency-box">
-        <CurrencyBox
-          name="input1"
-          opt={opt}
-          selectedNation={nationFrom}
-          handleSelected={handleSelected1}
-          money={amount1}
-          onChange={onChange1}
-        />
-        <CurrencyBox
-          name="input2"
-          opt={opt}
-          selectedNation={nationTo}
-          handleSelected={handleSelected2}
-          money={amount2}
-          onChange={onChange2}
-        />
+      <div className="wrap">
+        <header>
+          <h1>환전 계산기</h1>
+          <p>{date}</p>
+        </header>
+        <div className="currency-box">
+          <CurrencyBox
+            name="input1"
+            opt={opt}
+            selectedNation={nationFrom}
+            handleSelected={handleSelected1}
+            money={amount1}
+            onChange={onChange1}
+          />
+          <CurrencyBox
+            name="input2"
+            opt={opt}
+            selectedNation={nationTo}
+            handleSelected={handleSelected2}
+            money={amount2}
+            onChange={onChange2}
+          />
+        </div>
       </div>
-      </div>
-      <p className="ref">환율 기준 참고 API: <a href="https://exchangerate.host/#/#docs"  style={{color: "gray"}} target="_blank" rel="noreferrer">https://exchangerate.host/#/#docs</a></p>
+      <p className="ref">
+        환율 기준 참고 API:{" "}
+        <a
+          href="https://exchangerate.host/#/#docs"
+          style={{ color: "gray" }}
+          target="_blank"
+          rel="noreferrer"
+        >
+          https://exchangerate.host/#/#docs
+        </a>
+      </p>
     </>
   );
 }
