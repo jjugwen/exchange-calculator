@@ -52,7 +52,7 @@ function App() {
   const rateDB = async (rate, date) => {
     try {
       const response = await instance.post(
-        `/api/${currencyCodeFrom}/${currencyCodeTo}`,
+        `/api?from=${currencyCodeFrom}&to=${currencyCodeTo}`,
         {
           rate,
           date,
