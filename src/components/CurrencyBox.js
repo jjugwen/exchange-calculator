@@ -8,7 +8,7 @@ function CurrencyBox(props) {
   // const amount = parseFloat(comma).toFixed(2);
   return (
       <div className="input-box">
-      <input type="text" min={0} onChange={onChange} value={amount}/>
+      <input type="text" min={0} onChange={onChange} value={amount} aria-label={selectedNation}/>
         <select value={selectedNation} onChange={handleSelected}>
         {opt}
       </select>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import instance from "./API/instance";
 import "./App.css";
 import CurrencyBox from "./components/CurrencyBox";
+import Spinner from "./components/Spinner";
 
 function App() {
   const [data, setData] = useState([]);
@@ -49,22 +50,9 @@ function App() {
     }
   };
 
-  const rateDB = async (rate, date) => {
+  const rateDB = async () => {
     try {
-      const response = await instance.post(
-        `/api?from=${currencyCodeFrom}&to=${currencyCodeTo}`,
-        {
-          rate,
-          date,
-        },
-        {
-          headers: {
-            "Content-Type": "*",
-            withCredentials: true,
-          },
-        }
-      );
-      // console.log(response.data);
+      const response = await instance.post(`/api?from=${currencyCodeFrom}&to=${currencyCodeTo}`);
       setRate(response.data.exchangeRate);
       setDate(response.data.date);
     } catch (error) {
@@ -72,10 +60,9 @@ function App() {
     }
   };
 
-  const currencynNationDB = async (data) => {
+  const currencynNationDB = async () => {
     try {
-      const response = await instance.get(`/currencynationlist`, data);
-      // console.log(response.data);
+      const response = await instance.get(`/currencynationlist`);
       const listData = Object.values(response.data);
       setData(listData);
       const nations = listData
@@ -123,6 +110,7 @@ function App() {
       <div className="wrap">
         <header>
           <h1>환전 계산기</h1>
+          {!rate? <Spinner/>: null}
           <p>{date}</p>
         </header>
         <div className="currency-box">
