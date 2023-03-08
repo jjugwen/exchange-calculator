@@ -30,7 +30,7 @@ function App() {
     if (isNaN(str)) {
       setMoney(0);
     } else {
-      const regex = /[^0-9.]+{0, 16}/g;
+      const regex = /[^0-9.]+/g;
       const money = str.replace(regex, "");
       setMoney(money);
       setInputMoney(true);
@@ -45,7 +45,6 @@ function App() {
       const regex = /[^0-9.]+/g;
       const money = str.replace(regex, "");
       setMoney(money);
-      // setMoney(e.target.value);
       setInputMoney(false);
     }
   };
