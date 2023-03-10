@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import instance from "./API/instance";
 import "./App.css";
 import CurrencyBox from "./components/CurrencyBox";
@@ -49,15 +49,17 @@ function App() {
     }
   };
 
-  const rateDB = async () => {
-    try {
-      const response = await instance.post(`/api?from=${currencyCodeFrom}&to=${currencyCodeTo}`);
-      setRate(response.data.exchangeRate);
-      setDate(response.data.date);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const rateDB = useCallback(
+    async () => {
+      try {
+        const response = await instance.post(`/api?from=${currencyCodeFrom}&to=${currencyCodeTo}`);
+        setRate(response.data.exchangeRate);
+        setDate(response.data.date);
+      } catch (error) {
+        console.log(error);
+      }
+    }, [currencyCodeFrom, currencyCodeTo]);
+    
 
   const currencynNationDB = async () => {
     try {
@@ -102,7 +104,7 @@ function App() {
   useEffect(() => {
     currencynNationDB();
     rateDB();
-  }, [money, nationFrom, nationTo]);
+  }, [rateDB]);
 
   return (
     <>
