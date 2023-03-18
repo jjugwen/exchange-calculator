@@ -11,7 +11,7 @@ export const useTheme = () => {
     const [theme, setTheme] = useState(initTheme);
 
     const setMode = mode => {
-        window.localStorage.setItem('theme', mode === 'light' ? 'dark' : 'light')
+        window.localStorage.setItem('theme', mode)
         setTheme(mode)
     };
 

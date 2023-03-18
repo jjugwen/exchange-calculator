@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import instance from "./API/instance";
-import "./App.css";
 import CurrencyBox from "./components/CurrencyBox";
 import Spinner from "./components/Spinner";
 import { dark, light } from "./styles/theme";
@@ -115,8 +114,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Background>
-        <div className="wrap">
-          <button
+        <MainBox>
+          <ThemeButton
             title={
               theme === "light"
                 ? "일반모드로 테마 변경하기"
@@ -124,8 +123,8 @@ function App() {
             }
             onClick={toggleTheme}
           >
-            Mode
-          </button>
+            Theme
+          </ThemeButton>
           <header>
             <h1>환전 계산기</h1>
             {!rate ? <Spinner /> : null}
@@ -151,7 +150,7 @@ function App() {
               theme={theme}
             />
           </CurrencyBoxStyle>
-        </div>
+        </MainBox>
         <Ref>
           환율 기준 참고 API:{" "}
           <a
@@ -174,6 +173,27 @@ const Background = styled.div`
   background-color: ${(props) => props.theme.colors.bgColor};
   color: ${(props) => props.theme.colors.titleColor};
 `;
+
+const MainBox = styled.div`
+  margin: 10% 10% 0 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2%;
+  box-shadow: 13px 13px 15px rgb(160, 179, 135);
+`
+
+const ThemeButton = styled.button`
+  border: none;
+  border-radius: 20%;
+  width: 60px;
+  height: 30px;
+  font-weight: 600;
+  color: ${(props) => props.theme.buttonColor.titleColor};
+  background-color: ${(props) => props.theme.buttonColor.bgColor};
+  
+`
 
 const CurrencyBoxStyle = styled.div`
   margin: auto;
@@ -230,7 +250,7 @@ const Ref = styled.p`
   overflow: hidden;
   text-align: right;
   font-size: smaller;
-  color: ${(props) => props.theme.colors.focusColor};
+  color: ${(props) => props.theme.colors.refColor};
   opacity: 60%;
 `;
 
